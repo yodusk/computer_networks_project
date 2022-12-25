@@ -105,7 +105,7 @@ open class ProjectBuilderService(private val config: AppConfiguration) {
                 .redirectErrorStream(true)
                 .redirectOutput(ProcessBuilder.Redirect.INHERIT)
                 .redirectError(ProcessBuilder.Redirect.INHERIT)
-                .command("/bin/bash", "-c", "$mvn $mvnBuild $mvnSkipTests -Dassembly.skipAssembly=true")
+                .command("/bin/bash", "-c", "$mvn $mvnBuild $mvnSkipTests -ntp -Dassembly.skipAssembly=true")
                 .directory(shellUtils.workingDir(project.name))
                 .start()
                 .waitFor()

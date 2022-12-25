@@ -34,7 +34,6 @@ services:
       - ./neo4j/plugins:/plugins
     restart: always
 
-  
 
   backend:
     container_name: backend
@@ -49,13 +48,15 @@ services:
       - "postgres"
       - "neo4j"
 
-  # frontend:
-  #   build: ./frontend
-  #   container_name: frontend
-  #   ports:
-  #     - '4173:4173'
-  #   depends_on:
-  #     - "backend"
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    networks:
+      - ecosystem_network
+    ports:
+      - '4173:4173'
+    depends_on:
+      - "backend"
 
   nginx:
     container_name: nginx
@@ -63,7 +64,7 @@ services:
     build: ./.nginx
     depends_on:
       - backend
-      # - frontend
+      - frontend
     ports:
       - "80:80"
       - "443:443"

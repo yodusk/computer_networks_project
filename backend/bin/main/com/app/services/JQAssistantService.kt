@@ -40,6 +40,7 @@ open class JQAssistantService(private val config: AppConfiguration) {
     @Transactional
     open fun prepareProjectForRules(project: Project) {
         this.clearDatasource()
+        println("Running jqAssistant")
         jqAssistantClient.init(project)
         jqAssistantClient.applyDefaultConcepts()
         jqAssistantClient.applySpringConcepts()

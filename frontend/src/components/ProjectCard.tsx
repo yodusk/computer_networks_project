@@ -86,7 +86,10 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({project, status}) => {
             <Button variant='solid' colorScheme='blue'
                     isLoading={status == ProjectStatus.IN_PROGRESS}
                     loadingText={"Checking..."}
-                    onClick={() => ProjectsService.checkProject(project.id, project.defaultBranch)}>
+                    onClick={() =>{ 
+                      ProjectsService.checkProject(project.id, project.defaultBranch)
+                      status = ProjectStatus.IN_PROGRESS
+                      }}>
               Recheck
             </Button>
           </ButtonGroup>

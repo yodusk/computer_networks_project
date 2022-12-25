@@ -22,10 +22,12 @@ open class CheckerService {
     @Transactional
     @Scheduled(fixedDelay = "5s")
     open fun processCheckRequests() {
-        println("Processing check requests")
         val requests: List<CheckProjectRequest> =
             this.requestsRepository.findByStatus(ENQUEUED, Pageable.from(0, 10))
-        println(requests.size)
+        if (requests.isNotEmpty()) {
+            println("Processing check requests")
+            println(requests.size)
+        }
         requests.forEach { request -> println("Processing request: $request") }
         requests.map { it.status = PROCESSING }
         requestsRepository.updateAll(requests)

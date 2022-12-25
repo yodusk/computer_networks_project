@@ -12,6 +12,7 @@ data class ResponseRuleDto(
     val name: String,
     val query: String,
     val description: String,
+    val projectId: Long?,
     var createdAt: LocalDateTime?,
     var updatedAt: LocalDateTime?
 )

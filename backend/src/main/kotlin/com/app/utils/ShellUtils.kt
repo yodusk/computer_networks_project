@@ -9,11 +9,11 @@ import java.io.File
 class ShellUtils(private val config: AppConfiguration) {
 
     fun workingDir(path: String): File {
-        return File(System.getProperty("user.dir")).resolve(path)
+        return File(System.getProperty("user.dir")).resolve("working").resolve(path)
     }
 
     fun workingDir(): File {
-        return File(System.getProperty("user.dir"))
+        return File(System.getProperty("user.dir")).resolve("working")
     }
 }
 

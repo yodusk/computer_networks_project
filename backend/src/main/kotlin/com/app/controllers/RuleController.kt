@@ -8,6 +8,7 @@ import io.micronaut.http.annotation.Delete
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.PathVariable
 import io.micronaut.http.annotation.Post
+import io.swagger.v3.oas.annotations.parameters.RequestBody
 import jakarta.inject.Inject
 
 @Controller("/rule")
@@ -16,12 +17,12 @@ class RuleController {
   @Inject lateinit var ruleService: ProjectRuleService
 
   @Post
-  fun createRule(rule: CreateRuleDto): ResponseRuleDto {
+  fun createRule(@RequestBody rule: CreateRuleDto): ResponseRuleDto {
     return ruleService.create(rule)
   }
 
   @Post("/{id}")
-  fun updateRule(@PathVariable id: Long, rule: CreateRuleDto): ResponseRuleDto {
+  fun updateRule(@PathVariable id: Long, @RequestBody rule: CreateRuleDto): ResponseRuleDto {
     return ruleService.update(id, rule)
   }
 

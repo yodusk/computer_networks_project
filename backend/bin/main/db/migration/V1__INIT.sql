@@ -17,6 +17,7 @@ CREATE TABLE projects
     project_name   VARCHAR(255) NOT NULL,
     project_url    VARCHAR(255) NOT NULL,
     build_system   INTEGER,
+    scanned_paths  VARCHAR(10000) NOT NULL,
     default_branch VARCHAR(255),
     created_at     TIMESTAMP WITHOUT TIME ZONE,
     updated_at     TIMESTAMP WITHOUT TIME ZONE,
@@ -71,8 +72,8 @@ ALTER TABLE rule_result
     ADD CONSTRAINT FK_RULE_RESULT_ON_RULE FOREIGN KEY (rule_id) REFERENCES rules (id);
 
 -- insert one project
-INSERT INTO projects (id, project_name, project_url, build_system, default_branch, created_at, updated_at)
-VALUES (1, 'test_project', 'git@github.com:yodusk/PiggyMetrics.git', 0, 'master', now(), now());
+INSERT INTO projects (id, project_name, project_url, build_system, scanned_paths, default_branch, created_at, updated_at)
+VALUES (1, 'test_project', 'git@github.com:sqshq/piggymetrics.git', 'test_project/account-service/target/account-service-1.0-SNAPSHOT.jar,test_project/auth-service/target/auth-service-1.0-SNAPSHOT.jar,test_project/notification-service/target/notification-service-1.0.0-SNAPSHOT.jar,test_project/statistics-service/target/statistics-service-1.0-SNAPSHOT.jar,test_project/config/target/config-1.0.0-SNAPSHOT.jar', 0, 'master', now(), now());
 
 -- alter hibernate_sequence
 ALTER SEQUENCE hibernate_sequence RESTART WITH 2;

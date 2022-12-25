@@ -11,6 +11,7 @@ import io.micronaut.http.annotation.Delete
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.PathVariable
 import io.micronaut.http.annotation.Post
+import io.swagger.v3.oas.annotations.parameters.RequestBody
 import jakarta.inject.Inject
 
 @Controller("/project")
@@ -19,12 +20,12 @@ class ProjectController {
     @Inject lateinit var projectService: ProjectService
 
     @Post
-    fun createProject(project: RequestProjectDto): ResponseProjectDto {
+    fun createProject(@RequestBody project: RequestProjectDto): ResponseProjectDto {
         return projectService.create(project)
     }
 
     @Post("/{id}")
-    fun updateProject(@PathVariable id: Long, project: RequestProjectDto): ResponseProjectDto {
+    fun updateProject(@PathVariable id: Long, @RequestBody project: RequestProjectDto): ResponseProjectDto {
         return projectService.update(id, project)
     }
 

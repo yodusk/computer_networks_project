@@ -31,7 +31,7 @@ class Neo4jQueries {
                 "SET m.httpMethod = split(httpMethod.signature, ' ')[1] " +
                 "return m.name, m.httpMethod, m.url"
         const val enrichUrls =
-            "MATCH (configJar:Artifact) WHERE configJar.fileName CONTAINS 'config.jar' " +
+            "MATCH (configJar:Artifact) WHERE configJar.fileName CONTAINS 'config-1.0.0-SNAPSHOT.jar' " +
                 "MATCH (configJar)-[:CONTAINS]->(f:File:YAML)-[*]->(k:YAML:Key{fqn: 'server.servlet.context-path'})--(path:Value) WITH reverse(split(replace(f.fileName, '.yml', ''), '/'))[0] as serviceName, path.value as urlPrefix " +
                 "MATCH (serviceJar:Artifact)-[:CONTAINS]->(f:File:YAML)-[*]->(sn:YAML:Key{fqn: 'spring.application.name'})--(appName:Value) WHERE appName.value = serviceName " +
                 "MATCH (serviceJar)-[:CONTAINS|DECLARES*..2]->(endpoint:Endpoint) " +

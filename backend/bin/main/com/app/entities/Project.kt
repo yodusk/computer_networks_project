@@ -41,6 +41,9 @@ class Project(
     @OneToMany(mappedBy = "project")
     var reports: List<ProjectReport> = listOf(),
 
+    @Column(name = "scanned_paths")
+    var scannedPaths: String = "",
+
     @CreationTimestamp
     @Column(name = "created_at")
     var createdAt: LocalDateTime?,

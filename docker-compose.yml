@@ -17,7 +17,7 @@ services:
   # neo4j container with apoc
   neo4j:
     container_name: neo4j_db
-    image: neo4j:4.4.16
+    image: neo4j:4.4.5
     networks:
       - ecosystem_network
     ports:
@@ -25,16 +25,13 @@ services:
       - "7473:7473"
       - "7687:7687"
     environment:
-      # NEO4J_ACCEPT_LICENSE_AGREEMENT: "yes"
       NEO4J_AUTH: neo4j/passw0rd
       NEO4J_dbms_connector_bolt_enabled: "true"
-      # NEO4J_dbms_default__advertised__address: storage
-      # NEO4J_dbms_connector_http_listen__address: storage:9000
-      # NEO4J_dbms_connector_bolt_listen__address: storage:9001
-      NEO4J_PLUGINS: '["apoc"]'
-      # NEO4J_apoc_export_file_enabled: "true"
-      # NEO4J_apoc_import_file_enabled: "true"
-      # NEO4J_apoc_import_file_use__neo4j__config: "true"
+      NEO4JLABS_apoc_export_file_enabled: "true"
+      NEO4JLABS_apoc_import_file_enabled: "true"
+      NEO4JLABS_apoc_import_file_use__neo4j__config: "true"
+    volumes:
+      - ./neo4j/plugins:/plugins
     restart: always
 
   

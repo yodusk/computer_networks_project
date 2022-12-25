@@ -28,7 +28,7 @@ class ProjectReport(
     @ManyToOne
     var project: Project,
 
-    @OneToMany(mappedBy = "rule")
+    @OneToMany(mappedBy = "report")
     var checks: List<RuleResult>,
 
     @Column(name = "branch_name", nullable = false)

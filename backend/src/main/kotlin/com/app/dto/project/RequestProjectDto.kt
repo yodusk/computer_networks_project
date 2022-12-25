@@ -12,6 +12,7 @@ data class RequestProjectDto(
     var name: String,
     val url: String,
     val defaultBranch: String,
+    val paths: String,
     val buildSystem: BuildSystem
 ) {
     fun toEntity(): Project {
@@ -23,6 +24,7 @@ data class RequestProjectDto(
             defaultBranch,
             listOf(),
             listOf(),
+            paths,
             null,
             null
         )

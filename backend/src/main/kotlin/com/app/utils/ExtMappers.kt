@@ -26,7 +26,8 @@ fun RuleResult.toResponseDto(): ResponseRuleResultDto {
 }
 
 fun ProjectRule.toResponseDto(): ResponseRuleDto {
-    return ResponseRuleDto(this.id, this.name, this.query, this.description, this.createdAt, this.updatedAt)
+    return ResponseRuleDto(
+        this.id, this.name, this.query, this.description, this.project.id, this.createdAt, this.updatedAt)
 }
 
 fun Project.toResponseDto(): ResponseProjectDto {
@@ -35,6 +36,7 @@ fun Project.toResponseDto(): ResponseProjectDto {
         this.name,
         this.url,
         this.defaultBranch,
+        this.scannedPaths,
         this.buildSystem,
         this.createdAt,
         this.updatedAt)

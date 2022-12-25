@@ -51,13 +51,9 @@ open class ProjectService {
             builderService.syncProject(this, branchName)
             builderService.buildProject(this)
             assistantService.prepareProjectForRules(this)
-            reportRepo
-                .save(
-                    ProjectReport(
-                        project = this,
-                        branchName = branchName,
-                        checks = this.rules.map(ruleService::check)))
-                .toResponseDto()
+            val report = reportRepo.save(ProjectReport(project = this, branchName = branchName, checks = listOf()))
+            report.checks = this.rules.map { ruleService.check(it, report) }
+            reportRepo.save(report).toResponseDto()
         }
     }
 

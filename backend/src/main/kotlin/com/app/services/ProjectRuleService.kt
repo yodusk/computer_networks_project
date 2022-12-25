@@ -3,6 +3,7 @@ package com.app.services
 import com.app.dto.rule.CreateRuleDto
 import com.app.dto.rule.ResponseRuleDto
 import com.app.entities.Project
+import com.app.entities.ProjectReport
 import com.app.entities.ProjectRule
 import com.app.entities.RuleResult
 import com.app.repositories.ProjectRepository
@@ -65,8 +66,8 @@ open class ProjectRuleService {
     }
 
     @Transactional
-    open fun check(projectRule: ProjectRule): RuleResult {
-        return resultRepo.save(RuleResult(rule = projectRule, passed = execute(projectRule)))
+    open fun check(projectRule: ProjectRule, report: ProjectReport): RuleResult {
+        return resultRepo.save(RuleResult(rule = projectRule, passed = execute(projectRule), report = report))
     }
 
     @Transactional

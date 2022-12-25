@@ -16,8 +16,9 @@ CREATE TABLE projects
     id             BIGINT       NOT NULL,
     project_name   VARCHAR(255) NOT NULL,
     project_url    VARCHAR(255) NOT NULL,
-    build_system   INTEGER,
-    default_branch VARCHAR(255),
+    build_system   INTEGER     NOT NULL,
+    scanned_paths  VARCHAR(10000) NOT NULL,
+    default_branch VARCHAR(255) NOT NULL,
     created_at     TIMESTAMP WITHOUT TIME ZONE,
     updated_at     TIMESTAMP WITHOUT TIME ZONE,
     CONSTRAINT pk_projects PRIMARY KEY (id)
@@ -26,7 +27,7 @@ CREATE TABLE projects
 CREATE TABLE reports
 (
     id               BIGINT       NOT NULL,
-    project_id       BIGINT,
+    project_id       BIGINT      NOT NULL,
     branch_name      VARCHAR(255) NOT NULL,
     report_timestamp TIMESTAMP WITHOUT TIME ZONE,
     updated_at       TIMESTAMP WITHOUT TIME ZONE,
@@ -36,7 +37,8 @@ CREATE TABLE reports
 CREATE TABLE rule_result
 (
     id         BIGINT  NOT NULL,
-    rule_id    BIGINT,
+    rule_id    BIGINT NOT NULL,
+    report_id  BIGINT NOT NULL,
     passed     BOOLEAN NOT NULL,
     created_at TIMESTAMP WITHOUT TIME ZONE,
     updated_at TIMESTAMP WITHOUT TIME ZONE,
@@ -70,9 +72,12 @@ ALTER TABLE rules
 ALTER TABLE rule_result
     ADD CONSTRAINT FK_RULE_RESULT_ON_RULE FOREIGN KEY (rule_id) REFERENCES rules (id);
 
+ALTER TABLE rule_result
+    ADD CONSTRAINT FK_RULE_RESULT_ON_REPORT FOREIGN KEY (report_id) REFERENCES reports (id);
+
 -- insert one project
-INSERT INTO projects (id, project_name, project_url, build_system, default_branch, created_at, updated_at)
-VALUES (1, 'test_project', 'git@github.com:yodusk/PiggyMetrics.git', 0, 'master', now(), now());
+INSERT INTO projects (id, project_name, project_url, scanned_paths, build_system, default_branch, created_at, updated_at)
+VALUES (1, 'test_project', 'git@github.com:sqshq/piggymetrics.git', 'account-service/target/account-service-1.0-SNAPSHOT.jar,auth-service/target/auth-service-1.0-SNAPSHOT.jar,notification-service/target/notification-service-1.0.0-SNAPSHOT.jar,statistics-service/target/statistics-service-1.0-SNAPSHOT.jar,config/target/config-1.0.0-SNAPSHOT.jar', 0, 'master', now(), now());
 
 -- alter hibernate_sequence
 ALTER SEQUENCE hibernate_sequence RESTART WITH 2;
@@ -116,6 +121,7 @@ VALUES (1, 'Each microservice has error handler',
         'return feignMethodName, feignParams, feignReturns, controllerMethodName, controllerParams, controllerReturns',
         'Api methods should have compatible signatures', 1, now(), now());
 
+ALTER SEQUENCE hibernate_sequence RESTART WITH 6;
+
 -- insert into check_requests
 -- restart hibernate_sequence
-ALTER SEQUENCE hibernate_sequence RESTART WITH 6;

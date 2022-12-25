@@ -9,6 +9,7 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.ManyToMany
 import javax.persistence.ManyToOne
 import javax.persistence.Table
 
@@ -21,6 +22,9 @@ class RuleResult(
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     var id: Long? = null,
+
+    @ManyToOne
+    var report: ProjectReport,
 
     @ManyToOne
     var rule: ProjectRule,

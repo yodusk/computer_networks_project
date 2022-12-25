@@ -13,6 +13,7 @@ data class ResponseProjectDto(
     val name: String,
     val url: String,
     val defaultBranch: String,
+    val paths: String,
     val buildSystem: BuildSystem,
     val createdAt: LocalDateTime?,
     val updatedAt: LocalDateTime?

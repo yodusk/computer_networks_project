@@ -1,7 +1,9 @@
 FROM alpine:latest
 
 ADD .ssh/ /root/.ssh/
-ADD init_container.sh /
+ADD jqassistant.properties /working/jqassistant.properties
+ADD jqassistant/ ./working/jqassistant/
+
 RUN apk update  \
     && apk add --no-cache bash curl tar git openssh unzip \
     && chmod 600 /root/.ssh/id_rsa
@@ -28,9 +30,6 @@ RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
 ENV MAVEN_HOME /usr/share/maven
 ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
 
-# give permissions to execute
-RUN chmod 777 init_container.sh
-RUN ./init_container.sh
 COPY build/libs/computernetworksproject-0.1-all.jar ./computernetworksproject-0.1-all.jar
 COPY build/tmp/kapt3/classes/main/META-INF/swagger/ ./build/tmp/kapt3/classes/main/META-INF/swagger/
 EXPOSE 8080

@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: com.app
+testFramework: junit
+sourceLanguage: kotlin
+buildTool: gradle_kotlin
+features: [ annotation-api, app-name, data, data-jpa, flyway, gradle, http-client, jdbc-hikari, junit, kotlin, kotlin-application, kotlin-build, kotlin-extension-functions, micronaut-build, neo4j-bolt, netty-server, openapi, postgres, problem-json, readme, security-annotations, security-jwt, serialization-jackson, shade, slf4j-simple, swagger-ui, test-resources, yaml ]

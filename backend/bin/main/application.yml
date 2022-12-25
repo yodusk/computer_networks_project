@@ -1,0 +1,53 @@
+micronaut:
+  server:
+    cors:
+      enabled: true
+      origins: "*"
+      methods: "*"
+      headers: "*"
+      exposed-headers: "*"
+      allow-credentials: true
+      max-age: 3600
+  application:
+    name: computernetworksproject
+  router:
+    static-resources:
+      swagger:
+        paths: classpath:META-INF/swagger
+        mapping: /swagger/**
+      swagger-ui:
+        paths: classpath:META-INF/swagger/views/swagger-ui
+        mapping: /swagger-ui/**
+datasources:
+  default:
+    driverClassName: org.postgresql.Driver
+    db-type: postgres
+    dialect: POSTGRES
+    url: jdbc:postgresql://postgres:5432/postgres
+    username: postgres
+    password: postgres
+netty:
+  default:
+    allocator:
+      max-order: 3
+neo4j:
+  uri: "bolt://neo4j:7687"
+  username: "neo4j"
+  password: "passw0rd"
+jpa:
+  default:
+    entity-scan:
+      packages: 'com.app.entities'
+    properties:
+      hibernate:
+        bytecode:
+          provider: none
+
+app:
+  jqassistant-dir: 'jqassistant'
+  jqassistant-config-dir: 'jqAssistantConfig'
+  working-dir: 'working'
+flyway:
+  datasources:
+    default:
+      enabled: true

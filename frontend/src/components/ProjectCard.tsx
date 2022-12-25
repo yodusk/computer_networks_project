@@ -68,8 +68,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({project, status}) => {
                 {project.buildSystem}
               </Tag>
               <Tag bgColor="yellow.200">{project.defaultBranch}</Tag>
-              <Tag w="min-content" bgColor={getColor(status as ProjectStatus)}>{status}</Tag>)
-              {status == ProjectStatus.IN_PROGRESS && (<Spinner/>)}
+              <Tag w="min-content" bgColor={getColor(status as ProjectStatus)}><Text >{status}</Text></Tag>)
             </VStack>
             </HStack>
           </Stack>
@@ -85,6 +84,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({project, status}) => {
               To project
             </Button>
             <Button variant='solid' colorScheme='blue'
+                    isLoading={status == ProjectStatus.IN_PROGRESS}
+                    loadingText={"Checking..."}
                     onClick={() => ProjectsService.checkProject(project.id, project.defaultBranch)}>
               Recheck
             </Button>

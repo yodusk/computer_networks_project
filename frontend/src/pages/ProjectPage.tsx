@@ -16,7 +16,7 @@ import {
   Tabs,
   Tag,
   Text,
-  useDisclosure
+  useDisclosure, VStack
 } from "@chakra-ui/react";
 import {BuildSystem, ProjectStatus, ResponseProjectDto} from "../types/Project";
 import {IconArrowLeft, IconCodePlus, IconStatusChange} from "@tabler/icons";
@@ -83,8 +83,9 @@ export const ProjectPage: React.FC = () => {
     return (
         <Box backgroundColor="#FFFF" w="100%" h="100vh" p={5}>
           <ModifyProjectModal isOpen={isOpenModifyProject} onClose={onCloseModifyProject}
-                              onOpen={onOpenModifyProject}/>
-          <AddRuleModal isOpen={isOpenAddRule} onClose={onCloseAddRule} onOpen={onOpenAddRule}/>
+                              onOpen={onOpenModifyProject} project={project}/>
+          <AddRuleModal isOpen={isOpenAddRule} onClose={onCloseAddRule} onOpen={onOpenAddRule}
+                        projectId={project.id} rules={rules} setRules={setRules}/>
           <Flex>
             <Heading>{project.name}</Heading>
             <Spacer/>
@@ -124,6 +125,15 @@ export const ProjectPage: React.FC = () => {
                   pr={5}>{status}</Text> {status == ProjectStatus.IN_PROGRESS && (
                   <Spinner size="sm"/>)}</Tag>)
             </HStack>
+            <VStack
+            align={"stretch"}
+            >
+
+              <Text fontWeight="600">Scanned paths:</Text>
+              {project.paths.split(",").map((path) => (
+                  <Tag key={path} bgColor="gray.200">{path}</Tag>
+              ))}
+            </VStack>
             <Tabs>
               <TabList>
                 <Tab>Rules</Tab>
@@ -132,10 +142,10 @@ export const ProjectPage: React.FC = () => {
 
               <TabPanels overflowY="scroll" h="65vh">
                 <TabPanel>
-                  {rules.map((rule) => (<RuleCard key={rule.id} rule={rule}/>))}
+                  {rules.map((rule) => (<RuleCard key={rule.id} rule={rule} rules={rules} setRules={setRules}/>))}
                 </TabPanel>
                 <TabPanel>
-                  {reports.map((report) => (<ReportCard key={report.id} report={report}/>))}
+                  {reports.map((report, idx) => (<ReportCard key={idx} report={report} idx={idx}/>))}
                 </TabPanel>
               </TabPanels>
             </Tabs>

@@ -10,20 +10,23 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Select,
+  Select, Spacer,
   Stack
 } from "@chakra-ui/react";
 import React from "react";
-import {BuildSystem, RequestProjectDto} from "../types/Project";
+import {BuildSystem, RequestProjectDto, ResponseProjectDto} from "../types/Project";
 import ProjectsService from "../services/ProjectsService";
 
 interface AddProjectModalProps {
   isOpen: boolean;
   onClose: () => void;
   onOpen: () => void;
+
+  projects: ResponseProjectDto[];
+  setProjects: React.Dispatch<React.SetStateAction<ResponseProjectDto[]>>;
 }
 
-export const AddProjectModal: React.FC<AddProjectModalProps> = ({isOpen, onClose, onOpen}) => {
+export const AddProjectModal: React.FC<AddProjectModalProps> = ({isOpen, onClose, onOpen, projects, setProjects}) => {
 
   const [project, setProject] = React.useState({
     name: "",
@@ -31,6 +34,8 @@ export const AddProjectModal: React.FC<AddProjectModalProps> = ({isOpen, onClose
     url: "",
     buildSystem: BuildSystem.MAVEN
   } as RequestProjectDto);
+
+  const [paths, setPaths] = React.useState<string[]>([""]);
 
   function handleChange(
       e:
@@ -41,10 +46,17 @@ export const AddProjectModal: React.FC<AddProjectModalProps> = ({isOpen, onClose
     setProject((prev) => ({...prev, [field]: e.target.value}));
   }
 
-  const isDisabled = project.name === "" || project.url === "";
+  const isDisabled = project.name === "" || project.url === "" || paths.every((path) => path === "");
 
   const saveProject = () => {
-    ProjectsService.createProject(project).then(() => {
+    project.paths = paths.join(",");
+    ProjectsService.createProject(project).then((created) => {
+      setProjects([...projects, created]);
+      project.name = "";
+      project.url = "";
+      project.defaultBranch = "main";
+      project.buildSystem = BuildSystem.MAVEN;
+      setPaths([""]);
       onClose();
     });
   }
@@ -91,6 +103,49 @@ export const AddProjectModal: React.FC<AddProjectModalProps> = ({isOpen, onClose
                   <option value={BuildSystem.MAVEN}>Maven</option>
                 </Select>
               </FormControl>
+              <FormControl
+                  display="flex"
+                  flexDirection="column"
+                  alignItems="flex-start"
+              >
+                <FormLabel>Paths</FormLabel>
+              </FormControl>
+              {paths.map((path, index) => (
+                  <FormControl key={index}
+                                display="flex"
+                                flexDirection="row"
+                                alignItems="center"
+                  >
+                    <Input
+                        type="text"
+                        value={path}
+                        onChange={(e) => {
+                          const newPaths = [...paths];
+                          newPaths[index] = e.target.value;
+                          setPaths(newPaths);
+                        }}
+                    />
+                    <Spacer py={2}/>
+                    <Button
+                        colorScheme={"red"}
+                        onClick={() => {
+                          const newPaths = [...paths];
+                          newPaths.splice(index, 1);
+                          setPaths(newPaths);
+                        }}
+                    >
+                      Remove
+                    </Button>
+                  </FormControl>
+              ))}
+              <Button
+                  onClick={() => {
+                    setPaths((prev) => [...prev, ""]);
+                  }
+                  }
+              >
+                Add path
+              </Button>
             </Stack>
           </ModalBody>
           <ModalFooter>

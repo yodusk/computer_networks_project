@@ -7,6 +7,8 @@ export interface RequestProjectDto {
   name: string;
   url: string;
   defaultBranch: string;
+
+  paths: string;
   buildSystem: BuildSystem;
 }
 
@@ -21,6 +23,7 @@ export interface ResponseProjectDto {
   url: string;
   defaultBranch: string;
   buildSystem: BuildSystem;
+  paths: string;
   createdAt?: Date;
   updatedAt?: Date;
 }

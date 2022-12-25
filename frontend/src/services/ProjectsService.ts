@@ -35,8 +35,10 @@ class ProjectsService {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(dto)
-    })
-    return await res.json() as Promise<ResponseProjectDto>
+    }).then(
+        res => res.json()
+    ).catch(e => console.log(e))
+    return await res as Promise<ResponseProjectDto>
   }
 
   async getProjectStatus(id: number){
@@ -51,10 +53,12 @@ class ProjectsService {
     // fetch reports
     const res = await fetch(`${serviceUrl}/report/project/${id}`)
     const reports: ResponseReportDto[] = await res.json()
+    console.log(reports)
     if (reports.length === 0) {
       return ProjectStatus.UNKNOWN
     } else {
       const lastReport = reports[reports.length - 1]
+      // console.log(lastReport)
       if (lastReport.checks.every(check => check.passed)) {
         return ProjectStatus.CHECKED
       } else {

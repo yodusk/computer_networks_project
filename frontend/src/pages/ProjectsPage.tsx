@@ -1,6 +1,15 @@
-import {Box, Button, Flex, Heading, SimpleGrid, Spacer, useDisclosure} from "@chakra-ui/react";
-import React, { useEffect } from "react";
-import {BuildSystem, ProjectStatus, ResponseProjectDto} from "../types/Project";
+import {
+  Box,
+  Button,
+  Flex,
+  Grid,
+  Heading,
+  SimpleGrid,
+  Spacer,
+  useDisclosure
+} from "@chakra-ui/react";
+import React, {useEffect} from "react";
+import {ProjectStatus, ResponseProjectDto} from "../types/Project";
 import {ProjectCard} from "../components/ProjectCard";
 import {AddProjectModal} from "../components/AddProjectModal";
 import ProjectsService from "../services/ProjectsService";
@@ -22,17 +31,19 @@ export const ProjectsPage = () => {
   }, [])
 
   return (
-      <Box backgroundColor="#151329" w="100%" h="100vh" p={5}>
-        <AddProjectModal isOpen={isOpen} onClose={onClose} onOpen={onOpen}/>
+      <Grid backgroundColor="#151329" flexGrow={1} minH={"100vh"} alignContent={"flex-start"} p={5}>
+        <AddProjectModal isOpen={isOpen} onClose={onClose} onOpen={onOpen} projects={projects} setProjects={setProjects}/>
         <Flex>
           <Heading color="white">Projects</Heading>
           <Spacer/>
           <Button onClick={onOpen}>Create new project</Button>
         </Flex>
         <Spacer py={5}/>
-        <SimpleGrid columns={1} spacing={10}>
-          {projects.map((project, idx) => <ProjectCard key={project.id} status={statusMap.get(project.id)} project={project}/>)}
+        <SimpleGrid columns={2} spacing={10}>
+          {projects.map((project, idx) => <ProjectCard key={project.id}
+                                                       status={statusMap.get(project.id)}
+                                                       project={project}/>)}
         </SimpleGrid>
-      </Box>
+      </Grid>
   )
 }

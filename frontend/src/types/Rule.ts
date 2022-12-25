@@ -19,6 +19,7 @@ export interface ResponseRuleDto {
   name: string;
   query: string;
   description: string;
+  projectId: number;
   createdAt?: Date;
   updatedAt?: Date;
 }

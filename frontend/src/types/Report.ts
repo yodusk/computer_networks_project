@@ -6,6 +6,6 @@ export interface ResponseReportDto {
   project: ResponseProjectDto,
   checks: ResponseRuleResultDto[],
   branchName: String,
-  reportTimestamp: Date,
+  createdAt: Date,
   updatedAt: Date
 }
